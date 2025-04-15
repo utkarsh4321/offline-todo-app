@@ -17,7 +17,7 @@ export async function getTodoByKey(key) {
   return (await dbPromise).get(STORE_NAME, key);
 }
 export async function updateTodo(key, val) {
-  return (await dbPromise).put(STORE_NAME, val, key);
+  return (await dbPromise).put(STORE_NAME, val);
 }
 export async function deleteTodo(key) {
   return (await dbPromise).delete(STORE_NAME, key);
@@ -29,8 +29,8 @@ export async function getTodos() {
   return (await dbPromise).getAllKeys(STORE_NAME);
 }
 export async function getTodosViaIndex() {
-  return (await dbPromise).getAllFromIndex(STORE_NAME);
+  return (await dbPromise).getAllFromIndex(STORE_NAME, 'id');
 }
 export async function setTodo(key, value) {
-  return (await dbPromise).add(STORE_NAME, value, key);
+  return (await dbPromise).put(STORE_NAME, value);
 }

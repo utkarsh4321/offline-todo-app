@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from './Button';
-function Form({ onSubmit, isPending, errors, buttonText }) {
+function Form({ onSubmit,children }) {
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -15,13 +15,13 @@ function Form({ onSubmit, isPending, errors, buttonText }) {
 
   return (
     <form onSubmit={onSubmit}>
-      <label>
+      {/* <label>
         Enter something:
         <input type="text" value={inputValue} onChange={handleInputChange} />
       </label>
-      <button type="submit" disabled={isPending}>
+      <Button type="submit" disabled={isPending}>
         Submit
-      </button>
+      </Button> */}
     </form>
   );
 }

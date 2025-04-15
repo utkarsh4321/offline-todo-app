@@ -1,9 +1,13 @@
 import React from 'react';
 
-function Button({ isSvg = false, btnText = '' }) {
+function Button({ isSvg = false, type = '', disabled = false, children }) {
   return (
-    <button className="btn-submit dark:bg-darkSecondary transition-transform duration-200 ease-in-out dark:text-gray-800 group transform hover:scale-105">
-      <span className="capitalize">{btnText}</span>
+    <button
+      className="btn-submit dark:bg-darkSecondary transition-transform duration-200 ease-in-out dark:text-gray-800 group transform hover:scale-105"
+      type={type}
+      disabled={disabled}
+    >
+      <span className="capitalize">{children}</span>
       {isSvg && (
         <svg
           className="w-6 h-6 ml-1 transition-transform duration-1000 ease-out transform group-hover:translate-x-1"
