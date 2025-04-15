@@ -76,6 +76,11 @@ export default defineConfig({
       template: './index.html',
     }),
     isDev ? new RefreshPlugin() : null,
+    new rspack.CopyRspackPlugin({
+      // `./dir/**/*` -> `./dist`
+      // For example, `./dir/foo.txt` -> `./dist/foo.txt`
+      patterns: [{ from: 'public' }],
+    }),
   ].filter(Boolean),
   optimization: {
     minimizer: [
