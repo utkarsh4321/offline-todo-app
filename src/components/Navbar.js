@@ -19,7 +19,7 @@ const Navbar = () => {
         </h1>
 
         <div className="flex">
-          <button className="md:mr-20 mr-8">
+          {/* <button className="md:mr-20 mr-8">
             <svg
               fill="none"
               stroke="currentColor"
@@ -34,7 +34,7 @@ const Navbar = () => {
                 d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
               ></path>
             </svg>
-          </button>
+          </button> */}
           <button
             className="dark:bg-gray-700  border-0 bg-darkSecondary rounded-full h-10 w-10 flex items-center justify-center focus:outline-none"
             id="toogleBtn"
