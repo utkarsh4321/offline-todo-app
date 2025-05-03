@@ -14,7 +14,11 @@ module.exports = {
 
       colors: {
         darkPrimary: '#223C5F',
-        darkSecondary: '#E3927F',
+        darkSecondary: {
+          100: '#F4B3A6',
+          DEFAULT: '#E3927F',
+          700: '#B26B63',
+        },
         pinker: 'red',
         lucky: 'green',
         rama: 'purple',

@@ -1,12 +1,15 @@
 {
-  "name": "My PWA",
-  "start_url": "/",
+  "name": "Karya Suchi",
+  "short_name": "demo",
+  "start_url": "./",
+  "scope": "./",
+  "description": "karyasuchi is an simple todo taking app for your daily tasks",
+  "display": "standalone",
   "icons": [
     {
       "src": "mypwa2.png",
       "type": "image/png",
       "sizes": "512x512"
     }
-  ],
-  "display": "standalone"
+  ]
 }

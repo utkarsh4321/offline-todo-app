@@ -19,7 +19,7 @@
 .overflow-div {
   opacity: 0;
   visibility: hidden;
-  transition: 0.2s opacity ease, 0.2s visibility ease;
+  transition: 0.1s opacity ease, 0.2s visibility ease;
   will-change: visibility, opacity;
 }
 .overflow-div.open {

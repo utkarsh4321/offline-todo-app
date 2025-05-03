@@ -16,8 +16,10 @@ export default defineConfig({
     main: './src/main.jsx',
   },
   devServer: {
-    historyApiFallback: true, // this line will tell dev server to all 404 redirect to index.html file
+    historyApiFallback: true, // this line will tell dev server to all 404 redirect to index.html file,
+    allowedHosts: 'all',
   },
+
   resolve: {
     extensions: ['...', '.ts', '.tsx', '.jsx'],
   },

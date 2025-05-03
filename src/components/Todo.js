@@ -16,6 +16,7 @@ function Todo() {
   const [todos, setTodos] = useState([]);
   const [isMicOpen, setMicOnOff] = useState(false);
   let updatedTodoId = useRef(null);
+  const recognitionObj = useRef(null);
   useEffect(() => {
     (async () => {
       const todos = await getTodosViaIndex();
@@ -69,6 +70,12 @@ function Todo() {
   const openModal = () => {
     inputRef.current.value = '';
     setModal(!isModalOpen);
+    if (recognitionObj.current) {
+      recognitionObj.current.speech.abort();
+      recognitionObj.current.audio.pause();
+      setMicOnOff(false);
+      recognitionObj.current = null;
+    }
   };
   const onChangeHandler = (e, id) => {
     const selectedTodoIndex = todos.findIndex((item) => item.id === id);
@@ -112,6 +119,10 @@ function Todo() {
       console.error('Speech recognition error detected: ' + event.error);
     };
     recognition.start();
+    recognitionObj.current = {
+      speech: recognition,
+      audio: audio,
+    };
     recognition.onstart = () => {
       setMicOnOff(true);
       audio.addEventListener('canplaythrough', () => {
@@ -122,7 +133,9 @@ function Todo() {
       recognition.stop();
       setMicOnOff(false);
       audio.pause();
+      recognitionObj.current = null;
     };
+
     // recognition.onend = () => {
     //   recognition.stop();
     //   setMicOnOff(false);
@@ -135,17 +148,17 @@ function Todo() {
       <Popup openModalHandler={openModal} open={isModalOpen}>
         <form
           className={`todo__form flex flex-col w-96 md:max-w-4xl todo__form--content px-3 py-4 rounded text-current dark:bg-gray-700 bg-gray-200 z-10 ${
-            open ? 'form__active' : ''
+            isModalOpen ? 'form__active' : ''
           }`}
           action={formAction}
         >
-          <div className="flex todo-input dark:bg-gray-800">
+          <div className="flex todo-input dark:bg-gray-800 bg-gray-100">
             <input
               ref={inputRef}
               type="text"
               placeholder="Your todo"
               name="todo_name"
-              className="flex-auto bg-transparent"
+              className="flex-auto bg-transparent focus:outline-none"
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
