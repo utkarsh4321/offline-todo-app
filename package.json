@@ -27,6 +27,7 @@
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "cross-env": "^7.0.3",
+    "dotenv-webpack": "^8.1.0",
     "postcss-loader": "^7.0.0",
     "react-refresh": "^0.16.0"
   }

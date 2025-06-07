@@ -1,16 +1,48 @@
-import React from 'react';
+import React, { useActionState } from 'react';
 import GoogleLogo from '../assets/google.svg';
 import GithubLogo from '../assets/github.svg';
 import Input from './BaseCompenents/Input';
-import { NavLink } from 'react-router-dom';
-
-import './Login.css';
+import { NavLink, useHistory } from 'react-router-dom';
 import Button from './BaseCompenents/Button';
+import { useAuth } from '../context/AuthContext';
+import { http } from '../services/httpService';
+import './Login.css';
 
 const Login = () => {
+  const history = useHistory();
+  const { setUser } = useAuth();
+  const [errorMsg, formAction, isPending] = useActionState(
+    async (prevState, formData) => {
+      const email = formData.get('email');
+      const password = formData.get('password');
+
+      if (!email || !email.trim().length) {
+        return 'email is required';
+      }
+      if (!password || !password.trim().length) {
+        return 'password is required';
+      }
+
+      const response = await http.post('/user/login', {
+        body: {
+          email: email.trim(),
+          password: password.trim(),
+        },
+      });
+      if (response.statusCode === 200 && response.data) {
+        setUser(response.data.userId, response.data.email);
+        history.push('/');
+        return null;
+      } else {
+        return (
+          response.message || 'Something went wrong, please try again later'
+        );
+      }
+    },
+    null,
+  );
   return (
     <div className="flex flex-col flex-auto max-w-sm sm:max-w-md md:max-w-md lg:max-w-md xl:max-w-md mx-3">
-      <NavLink to="todo">Todo</NavLink>
       <h1
         className="text-6xl text-gray-700 tracking-wide dark:text-darkSecondary mb-5
          text-center font-bold"
@@ -18,10 +50,29 @@ const Login = () => {
         Sign In
       </h1>
 
-      <Input placeholder="Email" type="email" value="" />
-      <Input placeholder="Password" type="password" value="" />
+      {errorMsg && (
+        <span className="text-white-600 text-center mb-4 bg-red-600 px-4 py-2 rounded">
+          {errorMsg}
+        </span>
+      )}
+      <form action={formAction}>
+        <input
+          type="email"
+          placeholder="Email"
+          name="email"
+          className="w-full formControl dark:bg-gray-700"
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          name="password"
+          className="w-full formControl dark:bg-gray-700"
+          required
+        />
 
-      <Button isSvg={true} btnText="Login" />
+        <Button isSvg={true} type="submit" btnText="Login" />
+      </form>
 
       <div className="signup-link flex md:mt-8 mt-4 items-center flex-col">
         <NavLink

@@ -6,6 +6,8 @@ const Input = ({
   name = '',
   onChangeHandler,
   checked = null,
+  required = false,
+  disabled = false,
 }) => {
   return (
     <input
@@ -16,6 +18,9 @@ const Input = ({
       className={className || 'formControl dark:bg-gray-700'}
       checked={checked}
       onChange={onChangeHandler}
+      required={required}
+      disabled={disabled}
+      autoComplete="off"
     />
   );
 };

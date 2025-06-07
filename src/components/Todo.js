@@ -1,4 +1,11 @@
-import React, { useActionState, useEffect, useRef, useState } from 'react';
+import React, {
+  Suspense,
+  use,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import TodoComponent from './BaseCompenents/TodoComponent';
 import Timing from './Timing';
 import './Todo.css';
@@ -9,7 +16,8 @@ import {
   updateTodo,
   deleteTodo,
 } from '../utility/db';
-
+import { http } from '../services/httpService';
+import ErrorBoundary from './BaseCompenents/ErrorBoundary';
 function Todo() {
   const [isModalOpen, setModal] = useState(false);
   const inputRef = useRef(null);
@@ -19,8 +27,17 @@ function Todo() {
   const recognitionObj = useRef(null);
   useEffect(() => {
     (async () => {
-      const todos = await getTodosViaIndex();
-      setTodos(todos);
+      const content = await http.get('/todo/todos');
+      if (content && content.data && content.data.length) {
+        const todoList = content.data.map((item) => {
+          return {
+            id: item.id,
+            todo: item.todoText,
+            status: item.todoStatus === 'completed' ? true : false,
+          };
+        });
+        setTodos(todoList);
+      }
     })();
   }, []);
   const resetForm = () => {
@@ -39,11 +56,17 @@ function Todo() {
         );
         if (storedTodoIndex !== -1) {
           const selectedTodo = todos[storedTodoIndex];
-          await setTodo(selectedTodo.id, {
-            id: selectedTodo.id,
-            todo: todoName,
-            status: selectedTodo.status,
+          await http.put(`/todo/todo/${selectedTodo.id}`, {
+            body: {
+              todoText: todoName,
+              todoStatus: selectedTodo.status ? 'completed' : 'pending',
+            },
           });
+          // await setTodo(selectedTodo.id, {
+          //   id: selectedTodo.id,
+          //   todo: todoName,
+          //   status: selectedTodo.status,
+          // });
           (todos[storedTodoIndex] = {
             id: selectedTodo.id,
             todo: todoName,
@@ -53,13 +76,27 @@ function Todo() {
           updatedTodoId.current = null;
         }
       } else {
-        const radomUuid = Math.random().toString(36).slice(2);
-        await setTodo(radomUuid, {
-          id: radomUuid,
-          todo: todoName,
-          status: false,
+        // const radomUuid = Math.random().toString(36).slice(2);
+        const createdTodo = await http.post('/todo/todo', {
+          body: {
+            todoText: todoName,
+          },
         });
-        setTodos([...todos, { id: radomUuid, todo: todoName, status: false }]);
+        // await setTodo(radomUuid, {
+        //   id: radomUuid,
+        //   todo: todoName,
+        //   status: false,
+        // });
+        if (createdTodo && createdTodo?.data?.length > 0) {
+          setTodos([
+            ...todos,
+            {
+              id: createdTodo.data[0].id,
+              todo: createdTodo.data[0].todoText,
+              status: createdTodo.data[0].todoStatus === 'completed',
+            },
+          ]);
+        }
       }
       setModal(false);
 
@@ -81,15 +118,25 @@ function Todo() {
     const selectedTodoIndex = todos.findIndex((item) => item.id === id);
     if (selectedTodoIndex !== -1) {
       const selectedTodo = todos[selectedTodoIndex];
+      (async () => {
+        await http.put(`/todo/todo/${id}`, {
+          body: {
+            todoText: selectedTodo.todo,
+            todoStatus: e.target.checked ? 'completed' : 'pending',
+          },
+        });
+      })();
       selectedTodo.status = e.target.checked;
       todos[selectedTodoIndex] = selectedTodo;
       setTodos([...todos]);
-      updateTodo(id, selectedTodo);
+
+      // updateTodo(id, selectedTodo);
     }
   };
   const onDeleteTodo = (e, id) => {
     (async () => {
-      await deleteTodo(id);
+      // await deleteTodo(id);
+      await http.delete(`/todo/todo/${id}`);
       const filteredTodo = todos.filter((item) => item.id !== id);
       setTodos([...filteredTodo]);
     })();
@@ -218,12 +265,14 @@ function Todo() {
         </button>
       </div>
       <div className="todo__container w-full mt-6 h-80 mb-4 p-3 overflow-auto">
+        {/* <ErrorBoundary> */}
         <TodoComponent
           data={todos}
           onChangeHandler={onChangeHandler}
           onDeleteTodo={onDeleteTodo}
           onUpdateTodo={onUpdateTodo}
         />
+        {/* </ErrorBoundary> */}
       </div>
     </div>
   );
