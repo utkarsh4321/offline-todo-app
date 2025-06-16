@@ -42,7 +42,11 @@ function Timing() {
     };
   }, []);
   return (
-    <div className="md:text-2xl dark:text-gray-400">
+    <div
+      className="md:text-2xl dark:text-gray-400"
+      tabIndex={0}
+      aria-label="Current date and time"
+    >
       <div className="inline">Today</div>
       <div className="sm:text-7xl text-5xl font-extrabold dark:text-darkSecondary">
         <span>{dateText}</span>
@@ -51,7 +55,9 @@ function Timing() {
         <span>Dec</span> */}
       </div>
       <div className="text-center">
-        <span>{timeText}</span>
+        <span tabIndex={0} aria-label="current time">
+          {timeText}
+        </span>
       </div>
     </div>
   );

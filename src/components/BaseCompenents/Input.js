@@ -6,9 +6,11 @@ const Input = ({
   name = '',
   onChangeHandler,
   checked = null,
+  ariaLabel = '',
 }) => {
   return (
     <input
+      aria-label={ariaLabel || ''}
       type={type || 'text'}
       placeholder={placeholder || ''}
       value={value || ''}

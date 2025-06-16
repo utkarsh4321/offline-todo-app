@@ -152,13 +152,16 @@ function Todo() {
           }`}
           action={formAction}
         >
-          <div className="flex todo-input dark:bg-gray-800 bg-gray-100">
+          <div
+            className="flex todo-input dark:bg-gray-800 bg-gray-100"
+            tabIndex={0}
+          >
             <input
               ref={inputRef}
               type="text"
               placeholder="Your todo"
               name="todo_name"
-              className="flex-auto bg-transparent focus:outline-none"
+              className="flex-auto bg-transparent"
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -170,6 +173,8 @@ function Todo() {
                 (isMicOpen && 'fill-current text-red-500') || ''
               }`}
               onClick={onSpeak}
+              aria-label="Mic"
+              tabIndex={0}
             >
               <path
                 strokeLinecap="round"
@@ -198,8 +203,10 @@ function Todo() {
       <Timing />
       <div className="mt-8 todo__form--section w-full">
         <button
-          className="add__btn mx-auto dark:bg-gray-700 rounded-full h-12 w-12 flex justify-center items-center bg-gray-800 text-white focus:outline-none"
+          className="add__btn mx-auto dark:bg-gray-700 rounded-full h-12 w-12 flex justify-center items-center bg-gray-800 text-white"
           onClick={openModal}
+          tabIndex={0}
+          aria-label="Add todo"
         >
           <svg
             className="w-6 h-6"
@@ -207,6 +214,7 @@ function Todo() {
             stroke="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"

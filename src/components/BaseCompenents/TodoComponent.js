@@ -14,6 +14,7 @@ function TodoComponent({
             <Input
               type="checkbox"
               className="check"
+              ariaLabel="Todo checkbox"
               checked={item.status}
               onChangeHandler={
                 onChangeHandler && ((e) => onChangeHandler(e, item.id))
@@ -21,13 +22,15 @@ function TodoComponent({
             />
             <h4 className="ml-2">{item.todo}</h4>
           </div>
-          <div className="transition-transform duration-300 transition-width  duration-200 ease-in-out translate-x-32 flex items-center w-0 transform group-hover:translate-x-0 group-hover:w-14">
+          <div className="transition-transform duration-300 transition-width  duration-200 ease-in-out flex items-center transform">
             <svg
               className="transition duration-300 ease-in-out mr-1 transform hover:scale-110 motion-reduce:transition-none motion-reduce:transform-none w-6 h-6"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
               onClick={onUpdateTodo && ((e) => onUpdateTodo(e, item.id))}
+              tabIndex={0}
+              aria-label="Edit todo"
             >
               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
             </svg>
@@ -38,6 +41,8 @@ function TodoComponent({
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
               onClick={onDeleteTodo && ((e) => onDeleteTodo(e, item.id))}
+              tabIndex={0}
+              aria-label="Delete todo"
             >
               <path
                 strokeLinecap="round"

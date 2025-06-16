@@ -7,6 +7,8 @@ function Modal({ openModalHandler, open, children }) {
         open ? 'open' : ''
       }`}
       onClick={openModalHandler}
+      aria-modal="true"
+      role="alertdialog"
     >
       <div
         className={(open && 'block') || 'hidden'}

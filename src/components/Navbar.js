@@ -12,13 +12,17 @@ const Navbar = () => {
     }
   };
   return (
-    <header className="flex-shrink-0">
+    <header className="flex-shrink-0" tabIndex={0}>
       <div className="p-5 flex justify-between align-center">
-        <h1 className="text-2xl font-weight-semibold dark:text-darkSecondary">
+        <h1
+          className="text-2xl font-weight-semibold dark:text-darkSecondary"
+          tabIndex={0}
+          aria-label="karyasuchi - To make you productive and organized"
+        >
           karyasuchi
         </h1>
 
-        <div className="flex">
+        <div className="flex" tabIndex={0} aria-label="Toggle dark mode">
           {/* <button className="md:mr-20 mr-8">
             <svg
               fill="none"
@@ -46,6 +50,7 @@ const Navbar = () => {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
@@ -62,6 +67,7 @@ const Navbar = () => {
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-6 h-6"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
